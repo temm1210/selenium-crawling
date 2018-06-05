@@ -1,0 +1,14 @@
+table {
+    width:100%;
+}
+.kospi-day{
+    margin-bottom: 50px;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell{
+    min-width: 80px;
+}

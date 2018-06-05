@@ -1,0 +1,8 @@
+.footer {
+    background: #243a51;
+    position: absolute;
+    z-index: 1;
+    left: 167px;
+    opacity: .92;
+    color: white;
+}

@@ -1,0 +1,53 @@
+.navbar-header {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 5;
+}
+.fill-remaining-space{
+    flex:1 1 auto;
+}
+.navbar-container {
+    top: 60px;
+    padding: 50px;
+}
+
+.navbar-menu {
+    background-color: #243a51;
+    position: fixed;
+    left: 0;
+    top: 60px;
+}
+.btn-icon{
+    width: 90px;
+}
+.micon {
+    font-size:20px !important;
+}
+.mat-toolbar,
+.mat-primary{
+    background-color: #243a51;
+}
+/* check */
+.mat-list-text{
+    font-size: 14px !important;
+    padding: 0 !important;
+}
+
+.imgWrap {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: .2;
+}
+.menuListItem{
+    color:white;
+}
+.divider {
+    border-top-color: white;
+}

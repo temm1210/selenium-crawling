@@ -1,0 +1,14 @@
+table {
+    width:100%;
+    
+}
+.kospi-time{
+    margin-bottom: 50px;
+}
+.mat-icon {
+    vertical-align: middle;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}

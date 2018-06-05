@@ -1,0 +1,42 @@
+<div>
+  <div class="title">SIGN UP</div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signUpForm">
+    <mat-error *ngIf="isExist" class="id-check">
+        <mat-icon class="err-icon">error</mat-icon>
+        아이디가　중복됩니다 
+    </mat-error>
+    <mat-form-field class="full-width">
+      <input matInput formControlName="id" placeholder="ID" (focusout)="focusOut()"> 
+      <mat-error>
+        ３자이상 입력해주세요 
+      </mat-error>    
+    </mat-form-field>
+
+    <div formGroupName="passwordGroup">
+      <mat-form-field class="full-width">
+        <input type="password" 
+              matInput placeholder="Password" 
+              formControlName="password" 
+              required>
+        <mat-error>
+          패스워드는 ５자이상 입력해주세요
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input type="password" 
+              matInput placeholder="Password confirm" 
+              formControlName="passwordConfirm" 
+              [errorStateMatcher]="confirmValidParentMatcher"
+              required>
+        <mat-error>
+          패스워드가 다릅니다．
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button class="full-width" [ngStyle]="{'margin-bottom':'20px'}" color="primary">SIGNUP</button>
+    </div>
+  </form>
+  <button mat-raised-button class="full-width" (click)="closeDialog()" color="accent">CLOSE</button>
+</div>

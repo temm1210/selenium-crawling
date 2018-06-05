@@ -1,0 +1,56 @@
+
+<h2>시간별</h2>
+<div class="mat-elevation-z2 kospi-time">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>시간</th>
+      <td mat-cell *matCellDef="let element">{{element.date}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>현재가</th>
+      <td  mat-cell [ngStyle]="{ 'color':setColor(element.fluctuation) }" *matCellDef="let element">{{element.price}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="expenses">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>전일비</th>
+      <td  mat-cell [ngStyle]="{ 'color':setColor(element.fluctuation) }" *matCellDef="let element">
+        <ng-template [ngIf]="setColor(element.fluctuation) === 'red'" [ngIfElse]= "blue">
+          <mat-icon class="icon">arrow_drop_up</mat-icon>
+        </ng-template>
+
+        <ng-template #blue>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </ng-template>
+        {{element.expenses}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fluctuation">
+      <th mat-header-cell *matHeaderCellDef>등락률</th>
+      <td  mat-cell [ngStyle]="{ 'color':setColor(element.fluctuation) }" *matCellDef="let element">{{element.fluctuation}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>체결량</th>
+      <td mat-cell *matCellDef="let element">{{element.total}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trade">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>거래량</th>
+      <td mat-cell *matCellDef="let element">{{element.trade}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tradeCost">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>거래대금</th>
+      <td mat-cell *matCellDef="let element">{{element.tradeCost}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="kospiTimeInfo.keys"></tr>
+    <tr mat-row *matRowDef="let row; columns: kospiTimeInfo.keys;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20, 25, 30]"></mat-paginator>
+</div>
+

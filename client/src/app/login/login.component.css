@@ -1,0 +1,24 @@
+.title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 50px;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.full-width{
+    width: 100%;
+    margin: 0;
+}
+
+.fill-remaining-space{
+    flex:1 1 auto;
+}
+.foot{
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    float: right;
+}

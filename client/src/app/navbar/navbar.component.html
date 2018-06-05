@@ -1,0 +1,70 @@
+<mat-toolbar color="primary" class="navbar-header">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Stock</span>
+
+  <span class="fill-remaining-space"></span>
+
+  <ng-container *ngIf="isLoggined else notLogin">
+    <button class="btn-icon" mat-icon-button>
+      <mat-icon>assignment_ind</mat-icon>
+      <span>{{userName}}님</span>
+    </button>
+
+    <button class="btn-icon" mat-icon-button (click)="logOut()">
+      <mat-icon>input</mat-icon>
+      <span>로그아웃</span>
+    </button>
+  </ng-container>
+
+  <ng-template #notLogin>
+    <button class="btn-icon" mat-icon-button (click)="loginDialog()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>로그인</span>
+    </button>
+
+    <button class="btn-icon" mat-icon-button (click)="signUpDialog()">
+      <mat-icon>contacts</mat-icon>
+      <span>회원가입</span>
+    </button>
+  </ng-template>
+ 
+</mat-toolbar>
+
+<mat-sidenav-container class="navbar-container">
+  <mat-sidenav
+  #sidenav mode="side"
+  opened="opened"
+  class="navbar-menu">
+    <div class="imgWrap" [ngStyle]="{'background-image':'url('+image+')'}"></div>
+    <mat-nav-list>
+      <a routerLink="" mat-list-item class="menuListItem">
+        <mat-icon matListIcon class="micon">home</mat-icon>
+        <span class="mat-list-text" matLine>Home</span>
+      </a>
+      <mat-divider class="divider"></mat-divider>
+
+      <a routerLink="/kospi" mat-list-item class="menuListItem">
+        <mat-icon matListIcon class="micon">show_chart</mat-icon>
+        <span class="mat-list-text" matLine>코스피</span>
+      </a>
+      <mat-divider class="divider"></mat-divider>
+
+      <a routerLink="" mat-list-item class="menuListItem">
+        <mat-icon matListIcon class="micon">show_chart</mat-icon>
+        <span class="mat-list-text" matLine>코스닥</span>
+      </a>
+      <mat-divider class="divider"></mat-divider>
+
+      <a routerLink="" mat-list-item class="menuListItem">
+        <mat-icon matListIcon class="micon">list_alt</mat-icon>
+        <span class="mat-list-text" matLine>전종목시세</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,36 @@
+
+<div class="title">
+  LOGIN
+</div>
+
+<form class="loginForm" #loginForm="ngForm">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="ID" [(ngModel)]="id" name="id" required>
+    <mat-error>
+      아이디를 입력하세요
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="password" matInput [(ngModel)]="password" placeholder="Password" name="password" required>
+    <mat-error>
+      패스워드를 입력하세요
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button
+          type="submit"
+          class="full-width" 
+          (click)="onSubmit(loginForm.form.value)"
+          [disabled]="!loginForm.form.valid"
+          color="primary">LOGIN</button>
+</form>
+
+
+<button mat-raised-button class="full-width" (click)="closeDialog()" color="warn">CLOSE</button>
+<mat-divider></mat-divider>
+<div>
+  <div class="foot">
+    <span>Not a member?</span>
+    <button mat-icon-button (click)="openSignUpDialog()" color="accent">Sign Up</button>
+  </div>
+</div>

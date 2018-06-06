@@ -25,10 +25,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.post('/signin', (req,res,next) => {
-    console.log('req.body.id:',req.body.id);
     Member.findOne({id:req.body.id}, (err, member) => {
-
-        console.log('member:',member);
         if(!member) res.json({result:false, msg:'User not exist with match info'})
         else { 
             member.comparePassword(req.body.password, (err, isMatch) => {

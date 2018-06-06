@@ -3,30 +3,78 @@ var server = require('http').createServer();
 var io = require('socket.io')(server);
 var scrapping = require('./scrape');
 var cron = require('node-cron');
-
 var scrapeInfos = require('../info/kospiInfo');
-var scrapeData={};
+var _ = require('lodash');
+var redis = require('redis');
+var KospiDay = require('../model/KospiDay');
+var KospiTime = require('../model/KospiTime');
+var redisClient = redis.createClient();
 var keys = Object.keys(scrapeInfos);
-var length = keys.length;
-var i = 0;
 var socket;
 
-var a = 0
 //"*/20 * 9-15 * * 1-5"
-cron.schedule("*/10 * 9-23 * * 1-5", async function() {
+var cronKospi = cron.schedule("*/10 * 0-5 * * 1-5", async function() {
     try{
-        scrapeData[keys[i]] = await scrapping(scrapeInfos[keys[i++]],1);
-        scrapeData[keys[i-1]].expenses = scrapeData[keys[i-1]].expenses+ (a++);
-        if( socket && !socket.disconnected){
-            console.log('sendData:',scrapeData);
-            socket.emit('message', scrapeData );
-        }
-        if(i >= length) i = 0;
+        let scrapeArr=[];
+        console.log('-----------------------')
+        // if( socket && !socket.disconnected){
+        //     keys.map((key) => {
+        //         let scrapeObj =scrapping(scrapeInfos[key],1);
+        //         scrapeArr.push(scrapeObj) 
+        //     });
+        //     let scrapeData = await Promise.all(scrapeArr).then(data => data).catch((err) => {throw "Error Cron"})
+        //     let sendData = _.zipObject(keys, scrapeData);
+
+        //     console.log('sendData:',sendData );
+        //     socket.emit('message', sendData  );
+        // }
+
     } catch(err) {
         console.error(err);
         throw "Invoke Error In cronSchedule";
     }
-}).start();
+});
+//* * 3 * * 1-5
+var cronDB = cron.schedule("*/30 * 6 * * 1-5", function() {
+    let obj = {}; 
+    let i = 0;
+
+    keys.map(key => {
+        let kospiData = redisClient.hgetall(key, (err, replies) => {
+            let list = [];
+            let kospiKeys = Object.keys(replies);
+
+            kospiKeys.map((key) => {
+                list.push(JSON.parse(replies[key]));
+            });
+
+            obj[key] = list;
+            if(++i == keys.length) saveData(obj);
+        });
+        
+    });
+});
+
+
+function saveData(data) {
+    let day = data.kospiDay;
+    let time = data.kospiTime;
+
+    
+    keys.forEach((value,index) => {
+        redisClient.del(key);
+    })
+
+    KospiDay.create(day, (error, data) => {
+        if(error) console.log("Error CRON DB");
+        else console.log("Success Save data:",data);       
+    });
+
+    KospiTime.create(time, (error, data) => {
+        if(error) console.log("Error CRON DB");
+        else console.log("Success Save data:",data);       
+    });
+}
 
 module.exports = function wsSocket() {
     io.on('connection', (client) => {   

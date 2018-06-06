@@ -50,7 +50,8 @@ export class KospiTimeComponent implements OnInit, OnDestroy {
     this.subscriptionInit = this.kospiService.getKospi()
       .subscribe(
         (data:Message<KospiTimeModel[]>) => {
-          this.dataSource = new MatTableDataSource(data.kospiTime.map( (kospi) => kospi));
+
+          this.dataSource = new MatTableDataSource(data.kospiTime.reverse());
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
 
@@ -77,6 +78,7 @@ export class KospiTimeComponent implements OnInit, OnDestroy {
     let tmpData = this.dataSource.data;
     let bool = tmpData.every((value) => value.date !== data.date)
     let length = tmpData.length;
+
     if(!bool) tmpData[0] = data;
     else tmpData.unshift(data);
 

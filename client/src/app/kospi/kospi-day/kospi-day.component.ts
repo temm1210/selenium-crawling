@@ -40,7 +40,6 @@ export class KospiDayComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.init();
-    // this.connect();
   }
 
   ngOnDestroy() {
@@ -48,15 +47,11 @@ export class KospiDayComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // connect() {
-  //   this.kospiService.connect("http://localhost:8080",this.kospiDayInfo);
-  // }
-
   init() {
     this.subscription2 = this.kospiService.getKospi()
       .subscribe(
         (data:Message<KospiDayModel[]>) => {
-          this.dataSource = new MatTableDataSource(data.kospiDay.map( (kospi) => kospi));
+          this.dataSource = new MatTableDataSource(data.kospiDay.reverse());
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
 
@@ -70,13 +65,22 @@ export class KospiDayComponent implements OnInit, OnDestroy {
     this.subscription = this.kospiService.subject$
       .subscribe(  
         (data:Message<any>) => {
-          if( data.kospiDay ) {   
-            let tmpData = this.dataSource.data;
-            tmpData[0] = data.kospiDay;
-            this.dataSource.data = tmpData;
+          if( data.kospiDay ) {  
+            this.refreshDataSource(data.kospiDay)
           }
       }    
     );
+  }
+
+  refreshDataSource(data:KospiDayModel) {
+    let tmpData = this.dataSource.data;
+    let bool = tmpData.every((value) => value.date !== data.date)
+    let length = tmpData.length;
+
+    if(!bool) tmpData[0] = data;
+    else tmpData.unshift(data);
+
+    this.dataSource.data = tmpData;
   }
 
   setColor(data: string): string{

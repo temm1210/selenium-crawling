@@ -10,7 +10,7 @@ var MemberSchema = new Schema({
 
 MemberSchema.pre('save', function(next) {
     var user = this;
-
+    
     if(this.isModified('password') || this.isNwe){
         bcrypt.genSalt(10, (err, salt) => {
             if(err) return err;

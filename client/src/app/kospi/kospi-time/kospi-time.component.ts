@@ -77,10 +77,8 @@ export class KospiTimeComponent implements OnInit, OnDestroy {
     let tmpData = this.dataSource.data;
     let bool = tmpData.every((value) => value.date !== data.date)
     let length = tmpData.length;
-    if(!bool)
-      tmpData[length-1] = data;
-    else
-      tmpData.unshift(data);
+    if(!bool) tmpData[0] = data;
+    else tmpData.unshift(data);
 
     this.dataSource.data = tmpData;
   }

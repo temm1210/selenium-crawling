@@ -11,12 +11,13 @@ var length = keys.length;
 var i = 0;
 var socket;
 
-
-cron.schedule("*/20 * 9-15 * * 1-5", async function() {
+var a = 0
+//"*/20 * 9-15 * * 1-5"
+cron.schedule("*/10 * 9-23 * * 1-5", async function() {
     try{
         scrapeData[keys[i]] = await scrapping(scrapeInfos[keys[i++]],1);
-
-        if( !socket.disconnected){
+        scrapeData[keys[i-1]].expenses = scrapeData[keys[i-1]].expenses+ (a++);
+        if( socket && !socket.disconnected){
             console.log('sendData:',scrapeData);
             socket.emit('message', scrapeData );
         }

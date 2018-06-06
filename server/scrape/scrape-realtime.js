@@ -13,21 +13,20 @@ var keys = Object.keys(scrapeInfos);
 var socket;
 
 //"*/20 * 9-15 * * 1-5"
-var cronKospi = cron.schedule("*/10 * 0-5 * * 1-5", async function() {
+var cronKospi = cron.schedule("*/20 * 9-15 * * 1-5", async function() {
     try{
         let scrapeArr=[];
-        console.log('-----------------------')
-        // if( socket && !socket.disconnected){
-        //     keys.map((key) => {
-        //         let scrapeObj =scrapping(scrapeInfos[key],1);
-        //         scrapeArr.push(scrapeObj) 
-        //     });
-        //     let scrapeData = await Promise.all(scrapeArr).then(data => data).catch((err) => {throw "Error Cron"})
-        //     let sendData = _.zipObject(keys, scrapeData);
+        if( socket && !socket.disconnected){
+            keys.map((key) => {
+                let scrapeObj =scrapping(scrapeInfos[key],1);
+                scrapeArr.push(scrapeObj) 
+            });
+            let scrapeData = await Promise.all(scrapeArr).then(data => data).catch((err) => {throw "Error Cron"})
+            let sendData = _.zipObject(keys, scrapeData);
 
-        //     console.log('sendData:',sendData );
-        //     socket.emit('message', sendData  );
-        // }
+            console.log('sendData:',sendData );
+            socket.emit('message', sendData  );
+        }
 
     } catch(err) {
         console.error(err);
@@ -35,7 +34,7 @@ var cronKospi = cron.schedule("*/10 * 0-5 * * 1-5", async function() {
     }
 });
 //* * 3 * * 1-5
-var cronDB = cron.schedule("*/30 * 6 * * 1-5", function() {
+var cronDB = cron.schedule("* * 3 * * 1-5", function() {
     let obj = {}; 
     let i = 0;
 

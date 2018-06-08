@@ -5,7 +5,6 @@ var morgan = require('morgan');
 var path = require('path');
 var initSrcape = require('./init/init');
 var kospi = require('./routers/kospi');
-// var scrapeRealtime = require('./scrape/scrape-realtime');
 var bodyParser = require('body-parser');
 var connectToKeeper = require('./socket-client/connect-to-keeper');
 var GateInfo = require('./server-info/server-info').Gate;
@@ -15,6 +14,8 @@ var path = require('path');
 var nodes = []
 var app = express();
 
+process.setMaxListeners(15);
+
 connectToKeeper(GateInfo, (microNodes) => {
     nodes = microNodes;
     console.log('############## receive message ############## \n',nodes );
@@ -22,7 +23,6 @@ connectToKeeper(GateInfo, (microNodes) => {
 });
 
 initSrcape();
-// scrapeRealtime();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));

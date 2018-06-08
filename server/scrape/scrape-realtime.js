@@ -7,13 +7,12 @@ var scrapeInfos = require('../info/kospiInfo');
 var _ = require('lodash');
 var redis = require('redis');
 var KospiDay = require('../model/KospiDay');
-var KospiTime = require('../model/KospiTime');
 var redisClient = redis.createClient();
 var keys = Object.keys(scrapeInfos);
 var socket;
 
 //"*/20 * 9-15 * * 1-5"
-var cronKospi = cron.schedule("*/20 * 9-15 * * 1-5", async function() {
+var cronKospi = cron.schedule("*/15 * 9-15 * * 1-5", async function() {
     try{
         let scrapeArr=[];
         if( socket && !socket.disconnected){
@@ -27,52 +26,48 @@ var cronKospi = cron.schedule("*/20 * 9-15 * * 1-5", async function() {
             console.log('sendData:',sendData );
             socket.emit('message', sendData  );
         }
-
     } catch(err) {
         console.error(err);
         throw "Invoke Error In cronSchedule";
     }
 });
-//* * 3 * * 1-5
-var cronDB = cron.schedule("* * 3 * * 1-5", function() {
-    let obj = {}; 
-    let i = 0;
-
+// cron.schedule("* * 15 * * 1-5")
+//* * 15 * * 1-5
+var cronDB = cron.schedule("* * 15 * * 1-5", function() {
     keys.map(key => {
-        let kospiData = redisClient.hgetall(key, (err, replies) => {
-            let list = [];
-            let kospiKeys = Object.keys(replies);
+        redisClient.hgetall(key, (err, replies) => {
+            if(replies){
+                let list = [];
+                let kospiKeys = Object.keys(replies);
 
-            kospiKeys.map((key) => {
-                list.push(JSON.parse(replies[key]));
-            });
-
-            obj[key] = list;
-            if(++i == keys.length) saveData(obj);
+                kospiKeys.map((key) => {
+                    list.push(JSON.parse(replies[key]));
+                });
+    
+                saveData(list, key);
+            }
         });
-        
     });
 });
 
 
-function saveData(data) {
-    let day = data.kospiDay;
-    let time = data.kospiTime;
+function saveData(data, key) {
+    // let schema = key.toLowerCase().includes("day") ? KospiDay : KospiTime;
+    // schema.create(data, (err, data) => {
+    //     if(err) console.log(`Error CRON DB ${key}`);
+    //     else console.log(`Success Save data ${key}`);         
+    // })
 
-    
-    keys.forEach((value,index) => {
-        redisClient.del(key);
-    })
-
-    KospiDay.create(day, (error, data) => {
-        if(error) console.log("Error CRON DB");
-        else console.log("Success Save data:",data);       
-    });
-
-    KospiTime.create(time, (error, data) => {
-        if(error) console.log("Error CRON DB");
-        else console.log("Success Save data:",data);       
-    });
+    let schema = key.toLowerCase().includes("day");
+    if(schema) {
+        KospiDay.create(data, (err, data) => {
+            if(err) console.log(`Error CRON DB ${key}`);
+            else {
+                console.log(`Success Save data ${key}`);         
+                redisClient.del(key);
+            }
+        })
+    }
 }
 
 module.exports = function wsSocket() {

@@ -50,7 +50,6 @@ export class KospiTimeComponent implements OnInit, OnDestroy {
     this.subscriptionInit = this.kospiService.getKospi()
       .subscribe(
         (data:Message<KospiTimeModel[]>) => {
-
           this.dataSource = new MatTableDataSource(data.kospiTime.reverse());
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

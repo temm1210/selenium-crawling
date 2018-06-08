@@ -6,8 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./kospi.component.css']
 })
 export class KospiComponent implements OnInit {
-  
+
   constructor() {}
   ngOnInit() {
+    
   }
 }

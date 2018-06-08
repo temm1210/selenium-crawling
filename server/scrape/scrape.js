@@ -11,7 +11,6 @@ module.exports = async function scrapping(object, number) {
     // let ser = new chrome.ServiceBuilder(args.chromeDriver).build();
     var chromeOptions = new chrome.Options()
         .addArguments("--headless")
-        .addArguments("--disable-gpu")
         .addArguments("--no-sandbox")
         
     var driver = new Builder()
@@ -23,7 +22,6 @@ module.exports = async function scrapping(object, number) {
 
     try{
         await driver.get('http://finance.daum.net/quote/kospi.daum?nil_stock=refresh');
-
         await driver.switchTo().defaultContent();
         await driver.switchTo().frame(driver.findElement(By.xpath(object.name)));
 

@@ -11,6 +11,7 @@ var redisClient = redis.createClient();
 var keys = Object.keys(scrapeInfos);
 var socket;
 
+// 오전 9시부터 오후 15시 30분까지 크롤링
 //"*/20 * 9-15 * * 1-5"
 var cronKospi = cron.schedule("*/15 * 9-15 * * 1-5", async function() {
     try{

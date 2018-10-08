@@ -1,1 +1,1 @@
-module.exports = "MYSKJDFO*(U(*#JJ@(*(*@&!(*@&)(F";
+module.exports = "MYSKJDFO*(U(*#JJ@(*(*@&!(*@&)(F@$@$";

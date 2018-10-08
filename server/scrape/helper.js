@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const {By} = require('selenium-webdriver');
 
+//스크래핑 헬퍼 
 module.exports = class Helper {
     constructor(driver) {this.driver = driver;}
 

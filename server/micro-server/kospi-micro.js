@@ -8,7 +8,6 @@ var scrapeRealtime = require('../scrape/scrape-realtime');
 
 var app = express();
 
-
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/Kospi');
 const db = mongoose.connection;
@@ -17,7 +16,6 @@ app.use(morgan('combined'));
 db.once('open', () => {
     console.log(`MongoDB Kospi is Open`)
 })
-
 
 connectToKeeper(MicroKospiInfo, (microNodesInfo) => {
     console.log('##############  RECEIVE MESSAGE ############## \n', microNodesInfo); 

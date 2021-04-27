@@ -28,7 +28,7 @@
     "@types/socket.io-client": "^1.4.32",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "rxjs": "^6.0.0",
     "socket.io-client": "^2.1.1",
     "ts-transformer-keys": "^0.3.1",
